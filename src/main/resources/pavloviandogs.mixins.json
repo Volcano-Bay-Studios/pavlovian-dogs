@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "xyz.volcanobay.pavloviandogs.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "WolfMixin",
+    "events.BellBlockMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
