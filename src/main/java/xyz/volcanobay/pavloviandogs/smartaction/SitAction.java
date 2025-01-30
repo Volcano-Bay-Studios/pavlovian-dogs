@@ -9,8 +9,8 @@ public class SitAction extends Action {
 
     @Override
     public void performAction(Wolf wolf) {
-        wolf.getNavigation().stop();
-        wolf.setInSittingPose(!wolf.isInSittingPose());
+//        wolf.getNavigation().stop();
+        wolf.setInSittingPose(true);
     }
 
     @Override

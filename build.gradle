@@ -31,6 +31,14 @@ repositories {
         name = 'ParchmentMC'
         url = 'https://maven.parchmentmc.org'
     }
+    maven { url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
+    maven { url "https://mvnrepository.com/artifact/"}
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    mavenLocal()
+    mavenCentral()
 }
 
 dependencies {
@@ -43,6 +51,14 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.1")
+    modRuntimeOnly("maven.modrinth:architectury-api:13.0.5+fabric")
+
+    include("org.modogthedev:voicelib-fabric:1.0.0")
+    modImplementation("org.modogthedev:voicelib-fabric:1.0.0") { transitive = false }
+    implementation "com.alphacephei:vosk:$rootProject.vosk_version"
+    include "com.alphacephei:vosk:$rootProject.vosk_version"
 }
 
 processResources {

@@ -10,6 +10,9 @@ public abstract class SmartEvent {
     public SmartEvent(BlockPos pos) {
         this.pos = pos;
     }
+    public String getReference() {
+        return reference;
+    }
     public BlockPos pos;
     public int age;
     public int getMemoryLength() {
