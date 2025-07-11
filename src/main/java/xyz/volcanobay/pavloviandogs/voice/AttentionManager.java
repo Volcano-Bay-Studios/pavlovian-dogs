@@ -1,16 +1,13 @@
 package xyz.volcanobay.pavloviandogs.voice;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.animal.Wolf;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import org.modogthedev.api.VoiceLibApi;
-import org.modogthedev.api.events.ClientTalkEvent;
 import org.modogthedev.api.events.ServerPlayerTalkEvent;
 import xyz.volcanobay.pavloviandogs.PavlovianDogs;
 import xyz.volcanobay.pavloviandogs.registries.Events;
@@ -19,7 +16,6 @@ import xyz.volcanobay.pavloviandogs.smartevents.StringEvent;
 import xyz.volcanobay.pavloviandogs.util.LevenshteinDistance;
 
 import java.util.List;
-import java.util.Properties;
 
 public class AttentionManager {
     public static final List<String> badWords = List.of(new String[]{"bad dog", "bad girl", "bad boy"});
@@ -33,8 +29,7 @@ public class AttentionManager {
 
                 LevenshteinDistance.BestFit bestFit = LevenshteinDistance.bestFitWord(event.getText().toLowerCase(), wolf.getCustomName().getString().toLowerCase());
                 int distance = bestFit.distance();
-                if (PavlovianDogs.debug)
-                    System.out.println("[" + bestFit.string() + " < " + distance + " > " + wolf.getCustomName().getString() + "] -> " + bestFit.nextWord());
+
 
                 SmartAnimal smartAnimal = (SmartAnimal) wolf;
                 for (String text : badWords) {
@@ -53,8 +48,10 @@ public class AttentionManager {
                         wolf.getLookControl().setLookAt(event.getPlayer().getX(), event.getPlayer().getY(), event.getPlayer().getZ());
                     }
                 }
-                if (distance < 2) {
-                    StringEvent stringEvent = Events.VOICE.get().setPos(pos).setString(bestFit.nextWord());
+                if (distance < 2 && bestFit.words().length > 1) {
+                    if (PavlovianDogs.debug)
+                        System.out.println("[" + bestFit.string() + " < " + distance + " > " + wolf.getCustomName().getString() + "] -> " + bestFit.words()[1]);
+                    StringEvent stringEvent = Events.VOICE.get().setPos(pos).setString(bestFit.words());
                     if (!smartAnimal.getAnimalBrain().neuralNetwork.containsKey(stringEvent.getReference()))
                         smartAnimal.getAnimalBrain().addNewEvent(stringEvent.getReference());
                     smartAnimal.addSmartEvent(stringEvent);

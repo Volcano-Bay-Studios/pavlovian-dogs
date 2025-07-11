@@ -1,6 +1,7 @@
 package xyz.volcanobay.pavloviandogs.smartevents;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.animal.Wolf;
 
 public abstract class SmartEvent {
     public String reference;
@@ -18,4 +19,5 @@ public abstract class SmartEvent {
     public int getMemoryLength() {
         return 240;
     }
+    public void tick(Wolf wolf) {}
 }

@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.volcanobay.pavloviandogs.registries.Events;
 import xyz.volcanobay.pavloviandogs.smartanimal.SmartAnimal;
 import xyz.volcanobay.pavloviandogs.smartevents.BellTollEvent;
-import xyz.volcanobay.pavloviandogs.util.SmartAnimalTypeTest;
 
 import java.util.List;
 

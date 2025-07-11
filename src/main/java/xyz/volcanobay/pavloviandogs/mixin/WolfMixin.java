@@ -10,9 +10,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.TamableAnimal;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
@@ -47,7 +45,7 @@ public abstract class WolfMixin extends TamableAnimal implements SmartAnimal {
     @Shadow
     public abstract void tick();
 
-    private AnimalBrain brain = new AnimalBrain();
+    private AnimalBrain brain = new AnimalBrain(self());
 
     protected WolfMixin(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
@@ -57,8 +55,12 @@ public abstract class WolfMixin extends TamableAnimal implements SmartAnimal {
     public void registerGoals(CallbackInfo ci) {
         goalSelector.addGoal(1, new BreedGoal(this, 1.0));
         goalSelector.addGoal(2, new FloatGoal(this));
-        goalSelector.addGoal(3, new SmartAnimalGoal(self()));
-        goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
+        goalSelector.addGoal(4, new MeleeAttackGoal(this, (double)1.0F, true));
+        goalSelector.addGoal(5, new SmartAnimalGoal(self()));
+        goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(7, new BegGoal(this.self(), 8.0F));
+        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         ci.cancel();
     }
 

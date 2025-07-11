@@ -1,6 +1,7 @@
 package xyz.volcanobay.pavloviandogs.util;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class LevenshteinDistance {
     public static int calculate(String x, String y) {
@@ -38,10 +39,26 @@ public class LevenshteinDistance {
                 index = i;
             }
         }
-        String next = null;
-        if (index < size-1)
-            next = words[index+1];
+        String[] next = new String[size-index];
+        System.arraycopy(words, index, next, 0, size - index);
         return new BestFit(words[index],best,next);
+    }
+
+    public static BestFit bestFitWord(List<String> words, String t2) {
+        int size = words.size();
+        int best = 999999999;
+        int index = 0;
+        for (int i = 0; i < size; i++) {
+            String text = words.get(i);
+            int distance = calculate(text,t2);
+            if (distance< best) {
+                best = distance;
+                index = i;
+            }
+        }
+        String[] next = new String[size-index];
+        System.arraycopy(words.toArray(), index, next, 0, size - index);
+        return new BestFit(words.get(index),best,next);
     }
 
     public static int costOfSubstitution(char a, char b) {
@@ -52,6 +69,6 @@ public class LevenshteinDistance {
         return Arrays.stream(numbers)
                 .min().orElse(Integer.MAX_VALUE);
     }
-    public record BestFit(String string, int distance, String nextWord) {
+    public record BestFit(String string, int distance, String[] words) {
     };
 }

@@ -40,12 +40,12 @@ public class SmartAnimalGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        return true;
+        return wolf.getTarget() == null;
     }
 
     @Override
     public boolean canUse() {
-        return true;
+        return wolf.getTarget() == null;
     }
 
 }

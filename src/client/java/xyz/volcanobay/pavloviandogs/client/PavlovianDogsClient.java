@@ -4,8 +4,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.animal.Wolf;
@@ -14,11 +12,8 @@ import net.minecraft.world.phys.AABB;
 import org.modogthedev.api.VoiceLibApi;
 import org.modogthedev.api.events.ClientTalkEvent;
 import xyz.volcanobay.pavloviandogs.PavlovianDogs;
-import xyz.volcanobay.pavloviandogs.registries.Events;
 import xyz.volcanobay.pavloviandogs.smartanimal.SmartAnimal;
-import xyz.volcanobay.pavloviandogs.smartevents.StringEvent;
 import xyz.volcanobay.pavloviandogs.util.LevenshteinDistance;
-import xyz.volcanobay.pavloviandogs.voice.AttentionManager;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -70,8 +65,7 @@ public class PavlovianDogsClient implements ClientModInitializer {
             if (entity.getCustomName() != null && entity instanceof Wolf wolf) {
                 LevenshteinDistance.BestFit bestFit = LevenshteinDistance.bestFitWord(event.getText().toLowerCase(), wolf.getCustomName().getString().toLowerCase());
                 int distance = bestFit.distance();
-                if (PavlovianDogs.debug)
-                    System.out.println("[" + bestFit.string() + " < " + distance + " > " + wolf.getCustomName().getString() + "] -> " + bestFit.nextWord());
+
                 SmartAnimal smartAnimal = (SmartAnimal) wolf;
                 for (String text : badWords) {
                     if (event.getText().toLowerCase().contains(text)) {
@@ -91,8 +85,10 @@ public class PavlovianDogsClient implements ClientModInitializer {
                         }
                     }
                 }
-                if (distance < 2) {
-                    addText(wolf.getCustomName().getString()+" > "+bestFit.nextWord());
+                if (distance < 2 && bestFit.words().length > 1) {
+                    if (PavlovianDogs.debug)
+                        System.out.println("[" + bestFit.string() + " < " + distance + " > " + wolf.getCustomName().getString() + "] -> " + bestFit.words()[1]);
+                    addText(wolf.getCustomName().getString()+" > "+bestFit.words()[1]);
                 }
             }
         }

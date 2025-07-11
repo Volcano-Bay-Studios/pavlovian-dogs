@@ -7,7 +7,7 @@ import xyz.volcanobay.pavloviandogs.smartaction.Action;
 import xyz.volcanobay.pavloviandogs.voice.AttentionManager;
 
 public class PavlovianDogs implements ModInitializer {
-    public static final boolean debug = false;
+    public static final boolean debug = true;
 
     @Override
     public void onInitialize() {
