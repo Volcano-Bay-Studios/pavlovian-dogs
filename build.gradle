@@ -55,8 +55,8 @@ dependencies {
     modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.1")
     modRuntimeOnly("maven.modrinth:architectury-api:13.0.5+fabric")
 
-    include("org.modogthedev:voicelib-fabric:1.0.0")
-    modImplementation("org.modogthedev:voicelib-fabric:1.0.0") { transitive = false }
+    include("maven.modrinth:voicelib:1.0.1")
+    modImplementation("maven.modrinth:voicelib:1.0.1") { transitive = false }
     implementation "com.alphacephei:vosk:$rootProject.vosk_version"
     include "com.alphacephei:vosk:$rootProject.vosk_version"
 }
